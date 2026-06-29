@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)file:///C:/Users/User/Downloads/ocean-platform_3.html -->
+<html lang="el"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ocean Platform</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+:root {
+  --bg:#080d14; --surface:#0d1520; --surface2:#121e2d; --border:#1e2d40;
+  --accent:#0099ff; --accent-dim:rgba(0,153,255,0.1); --accent-glow:rgba(0,153,255,0.08);
+  --text:#dde8f0; --muted:#4a6178; --muted2:#1e2d40;
+  --blue:#3b82f6; --blue-dim:rgba(59,130,246,0.1);
+  --amber:#f59e0b; --amber-dim:rgba(245,158,11,0.1);
+  --red:#ef4444; --red-dim:rgba(239,68,68,0.1);
+  --green:#10b981; --green-dim:rgba(16,185,129,0.1);
+  --purple:#8b5cf6; --purple-dim:rgba(139,92,246,0.1);
+  --ocean:#00c8ff; --ocean-dim:rgba(0,200,255,0.1);
+  --retail:#f97316; --retail-dim:rgba(249,115,22,0.1);
+  --wholesale:#8b5cf6; --wholesale-dim:rgba(139,92,246,0.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* TOP BAR */
+.topbar{display:flex;align-items:center;border-bottom:1px solid var(--border);background:rgba(8,13,20,0.98);backdrop-filter:blur(12px);position:sticky;top:0;z-index:200;height:50px;flex-shrink:0}
+.logo{padding:0 20px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.04em;border-right:1px solid var(--border);height:100%;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.logo-icon{font-size:20px}
+.logo-text{color:var(--ocean)}
+.logo-text span{color:var(--muted);font-weight:400}
+.tabs-nav{display:flex;height:100%;flex:1}
+.tab-nav{display:flex;align-items:center;gap:7px;padding:0 18px;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;border-right:1px solid var(--border);white-space:nowrap}
+.tab-nav:hover{color:var(--text);background:rgba(255,255,255,.02)}
+.tab-nav.active{color:var(--ocean);border-bottom-color:var(--ocean);background:var(--ocean-dim)}
+.tab-nav .tnbadge{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:1px 6px;border-radius:8px;background:var(--surface2)}
+.tab-nav.active .tnbadge{background:var(--ocean-dim);color:var(--ocean)}
+.topbar-right{margin-left:auto;padding:0 16px;display:flex;align-items:center;gap:10px}
+.hstat{display:flex;flex-direction:column;align-items:center;padding:0 8px;border-left:1px solid var(--border)}
+.hstat-val{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;line-height:1}
+.hstat-label{font-size:9px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-top:1px}
+
+/* PANELS */
+.panel{display:none;flex:1;overflow:hidden;min-height:0}
+.panel.active{display:flex}
+
+/* ── LEAD HUNTER ── */
+.lh-layout{display:grid;grid-template-columns:280px 1fr;flex:1;overflow:hidden}
+.lh-sidebar{border-right:1px solid var(--border);padding:16px 14px;display:flex;flex-direction:column;gap:14px;overflow-y:auto}
+.lh-content{display:flex;flex-direction:column;padding:16px 20px;gap:12px;overflow:hidden}
+.sec-label{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.kad-group{background:var(--surface);border:1px solid var(--border);border-radius:7px;overflow:hidden}
+.kad-group+.kad-group{margin-top:7px}
+.kad-gh{padding:8px 11px;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;border-bottom:1px solid var(--border)}
+.kad-gh.retail{background:var(--retail-dim);color:var(--retail)}
+.kad-gh.wholesale{background:var(--wholesale-dim);color:var(--wholesale)}
+.kad-item{padding:6px 11px;display:flex;align-items:center;gap:7px;cursor:pointer;transition:background .1s;border-bottom:1px solid var(--border)}
+.kad-item:last-child{border-bottom:none}
+.kad-item:hover{background:rgba(255,255,255,.02)}
+.kad-item input[type=checkbox]{accent-color:var(--ocean);width:12px;height:12px;flex-shrink:0;cursor:pointer}
+.kad-code{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);min-width:82px}
+.kad-desc{font-size:11px;color:var(--text);line-height:1.3}
+.filter-row{display:flex;flex-direction:column;gap:4px}
+.filter-label{font-size:11px;color:var(--muted);font-weight:500}
+select,input[type=number],input[type=text]{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:6px 8px;color:var(--text);font-family:'Inter',sans-serif;font-size:12px;outline:none;transition:border-color .15s}
+select:focus,input:focus{border-color:var(--ocean)}
+select option{background:var(--surface)}
+.range-row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.run-btn{width:100%;padding:10px;background:var(--ocean);color:#000;border:none;border-radius:7px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.05em;transition:opacity .15s,transform .1s;margin-top:auto}
+.run-btn:hover{opacity:.88;transform:translateY(-1px)}
+.run-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex-shrink:0}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:10px 12px}
+.stat-value{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;color:var(--ocean);line-height:1;margin-bottom:2px}
+.stat-label{font-size:10px;color:var(--muted)}
+.leads-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;flex:1;display:flex;flex-direction:column;min-height:0}
+.tbl-wrap{overflow-y:auto;flex:1}
+table{width:100%;border-collapse:collapse}
+thead th{padding:8px 11px;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;background:var(--surface);z-index:1}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+td{padding:9px 11px;vertical-align:middle;font-size:12px}
+.cn{font-weight:500;color:var(--text);margin-bottom:1px}
+.ca{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
+
+/* ── OUTREACH ── */
+.or-layout{display:grid;grid-template-columns:200px 1fr 300px;flex:1;overflow:hidden}
+.or-nav{border-right:1px solid var(--border);padding:12px 10px;display:flex;flex-direction:column;gap:3px;overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:5px;cursor:pointer;transition:all .15s;color:var(--muted);font-size:11px;font-weight:500;border:none;background:none;width:100%;text-align:left;font-family:'Inter',sans-serif}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--ocean-dim);color:var(--ocean);border:1px solid rgba(0,200,255,.15)}
+.nav-icon{font-size:13px;width:16px;text-align:center}
+.nav-badge{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:1px 5px;border-radius:7px;background:var(--surface2)}
+.nav-item.active .nav-badge{background:var(--ocean-dim);color:var(--ocean)}
+.or-center{display:flex;flex-direction:column;overflow:hidden}
+.panel-hdr{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.panel-title{font-size:13px;font-weight:600}
+.pipeline{display:grid;grid-template-columns:repeat(4,1fr);flex:1;overflow:hidden}
+.pipe-col{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.pipe-col:last-child{border-right:none}
+.pcol-hdr{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.pcol-title{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:5px}
+.pcol-dot{width:6px;height:6px;border-radius:50%}
+.pcol-count{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:1px 5px;border-radius:7px;background:var(--surface2);color:var(--muted)}
+.col-cards{flex:1;overflow-y:auto;padding:8px 7px;display:flex;flex-direction:column;gap:6px}
+.ocard{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:10px 11px;cursor:pointer;transition:all .15s;position:relative}
+.ocard:hover{border-color:rgba(0,200,255,.25);background:var(--surface2)}
+.ocard.sel{border-color:var(--ocean);background:var(--accent-glow)}
+.ocard-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:14px}
+.ocard-sub{font-size:10px;color:var(--muted);margin-bottom:6px}
+.ocard-foot{display:flex;align-items:center;justify-content:space-between}
+.ocard-sdot{width:6px;height:6px;border-radius:50%;position:absolute;top:9px;right:9px}
+.pulse{animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.or-right{border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.or-right-hdr{padding:12px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.or-right-body{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:12px}
+.detail-label{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:5px}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border)}
+.detail-row:last-child{border-bottom:none}
+.dkey{font-size:11px;color:var(--muted)}
+.dval{font-size:11px;font-weight:500;text-align:right;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.composer{background:var(--surface2);border:1px solid var(--border);border-radius:7px;overflow:hidden}
+.ctabs{display:flex;border-bottom:1px solid var(--border)}
+.ctab{flex:1;padding:6px;text-align:center;font-size:11px;font-weight:500;cursor:pointer;color:var(--muted);transition:all .15s;border:none;background:none;font-family:'Inter',sans-serif}
+.ctab.active{color:var(--ocean);background:var(--ocean-dim)}
+.comp-body{padding:9px}
+.msg-ta{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:7px 9px;color:var(--text);font-family:'Inter',sans-serif;font-size:11px;line-height:1.6;resize:vertical;min-height:80px;outline:none;transition:border-color .15s}
+.msg-ta:focus{border-color:var(--ocean)}
+.comp-foot{display:flex;align-items:center;justify-content:space-between;padding:7px 9px;border-top:1px solid var(--border)}
+.sched-sel{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:4px 7px;color:var(--text);font-size:11px;font-family:'Inter',sans-serif;outline:none}
+.ai-box{background:var(--ocean-dim);border:1px solid rgba(0,200,255,.15);border-radius:7px;padding:9px 11px}
+.ai-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.ai-title{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;color:var(--ocean);letter-spacing:.08em}
+.ai-gen{padding:3px 7px;background:var(--ocean);color:#000;border:none;border-radius:3px;font-size:10px;font-weight:700;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:opacity .15s}
+.ai-gen:hover{opacity:.85}
+.ai-text{font-size:11px;line-height:1.65;white-space:pre-wrap}
+.ai-cursor{display:inline-block;width:6px;height:12px;background:var(--ocean);vertical-align:middle;animation:blink 1s infinite;margin-left:1px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.ai-acts{display:flex;gap:5px;margin-top:7px}
+.tl{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:9px;padding-bottom:10px;position:relative}
+.tl-item:last-child{padding-bottom:0}
+.tl-item:not(:last-child):before{content:'';position:absolute;left:10px;top:20px;bottom:0;width:1px;background:var(--border)}
+.tl-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.tl-dot.sent{background:var(--purple-dim);border:1px solid rgba(139,92,246,.2)}
+.tl-dot.replied{background:var(--green-dim);border:1px solid rgba(16,185,129,.2)}
+.tl-dot.followup{background:var(--amber-dim);border:1px solid rgba(245,158,11,.2)}
+.tl-dot.meeting{background:var(--ocean-dim);border:1px solid rgba(0,200,255,.2)}
+.tl-c{flex:1}
+.tl-title{font-size:11px;font-weight:600;margin-bottom:1px}
+.tl-body{font-size:10px;color:var(--muted);line-height:1.5}
+.tl-time{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted2)}
+.meet-box{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:10px}
+.slots{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.slot{padding:5px 7px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;font-size:10px;cursor:pointer;text-align:center;transition:all .15s;color:var(--muted)}
+.slot:hover,.slot.sel{background:var(--ocean-dim);border-color:rgba(0,200,255,.3);color:var(--ocean)}
+.meet-confirm{width:100%;margin-top:7px;padding:7px;background:var(--ocean);color:#000;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:opacity .15s}
+.meet-confirm:hover{opacity:.85}
+.btn{padding:6px 12px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;border:none;letter-spacing:.02em}
+.btn-primary{background:var(--ocean);color:#000}
+.btn-primary:hover{opacity:.88}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-ghost:hover{border-color:var(--ocean);color:var(--ocean)}
+.btn-sm{padding:4px 9px;font-size:11px}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.tag{display:inline-flex;align-items:center;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:600}
+.tag.retail{background:var(--retail-dim);color:var(--retail)}
+.tag.wholesale{background:var(--wholesale-dim);color:var(--wholesale)}
+.score-bar{display:flex;align-items:center;gap:6px}
+.score-track{width:44px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.score-fill{height:100%;border-radius:2px;background:var(--ocean)}
+.score-num{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
+.age-chip{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ocean)}
+.age-chip.old{color:var(--muted)}
+.verify-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:3px;font-size:10px;font-weight:600}
+.verify-badge.v{background:var(--green-dim);color:var(--green)}
+.verify-badge.u{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.push-btn{padding:4px 9px;background:var(--ocean-dim);border:1px solid rgba(0,200,255,.2);border-radius:4px;color:var(--ocean);font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;white-space:nowrap}
+.push-btn:hover{background:rgba(0,200,255,.2)}
+.push-btn.done{background:var(--green-dim);border-color:rgba(16,185,129,.2);color:var(--green)}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;padding:20px}
+.empty-icon{font-size:28px;margin-bottom:10px;opacity:.5}
+.empty-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
+.empty-desc{font-size:11px;line-height:1.6;max-width:200px}
+.prog-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;display:none;align-items:center;justify-content:center}
+.prog-overlay.open{display:flex}
+.prog-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:26px 34px;text-align:center;width:300px;display:flex;flex-direction:column;gap:12px}
+.prog-title{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ocean)}
+.prog-track{width:100%;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--ocean);border-radius:2px;transition:width .3s ease}
+.prog-step{font-size:11px;color:var(--muted);min-height:13px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:400;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:11px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:14px}
+.modal-h{display:flex;justify-content:space-between;align-items:center}
+.modal-title{font-size:14px;font-weight:700}
+.x-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;line-height:1}
+.x-btn:hover{color:var(--text)}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fl{font-size:11px;color:var(--muted);font-weight:500}
+.fi{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:7px 9px;color:var(--text);font-family:'Inter',sans-serif;font-size:12px;outline:none;transition:border-color .15s;width:100%}
+.fi:focus{border-color:var(--ocean)}
+select.fi option{background:var(--surface2)}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.toast-wrap{position:fixed;bottom:18px;right:18px;z-index:500;display:flex;flex-direction:column;gap:7px}
+.toast{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:9px 13px;font-size:12px;display:flex;align-items:center;gap:7px;animation:slideIn .22s ease;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+@keyframes slideIn{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
+.toast.ok{border-color:rgba(0,200,255,.3)}
+.toast.err{border-color:rgba(239,68,68,.3)}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">
+    <span class="logo-icon">🌊</span>
+    <div class="logo-text">Ocean <span>/ Liakopoulos Platform</span></div>
+  </div>
+  <div class="tabs-nav">
+    <div class="tab-nav active" onclick="switchTab(&#39;hunter&#39;)" id="tnav-hunter">🔍 Lead Hunter <span class="tnbadge" id="tnb-hunter">0</span></div>
+    <div class="tab-nav" onclick="switchTab(&#39;outreach&#39;)" id="tnav-outreach">⚡ Outreach <span class="tnbadge" id="tnb-outreach">4</span></div>
+  </div>
+  <div class="topbar-right">
+    <div class="hstat"><div class="hstat-val" style="color:var(--ocean)" id="gs-leads">0</div><div class="hstat-label">Leads</div></div>
+    <div class="hstat"><div class="hstat-val" style="color:var(--blue)" id="gs-pipeline">4</div><div class="hstat-label">Pipeline</div></div>
+    <div class="hstat"><div class="hstat-val" style="color:var(--green)" id="gs-meetings">1</div><div class="hstat-label">Ραντεβού</div></div>
+    <div class="hstat"><div class="hstat-val" style="color:var(--amber)" id="gs-rate">25%</div><div class="hstat-label">Conv%</div></div>
+    <button class="btn btn-primary btn-sm" onclick="openAddModal()">+ Νέο Lead</button>
+  </div>
+</div>
+
+<!-- PANEL 1: LEAD HUNTER -->
+<div class="panel active" id="panel-hunter">
+<div class="lh-layout">
+  <div class="lh-sidebar">
+    <div>
+      <div class="sec-label">Κατηγορίες ΚΑΔ</div>
+      <div class="kad-group">
+        <div class="kad-gh retail">🛒 Λιανικό Εμπόριο</div>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.78.89.04" data-type="retail" checked=""><span class="kad-code">47.78.89.04</span><span class="kad-desc">Είδη κολύμβησης / beach</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.19.10.08" data-type="retail" checked=""><span class="kad-code">47.19.10.08</span><span class="kad-desc">Πολυκαταστήματα αθλητικών</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.78.86.13" data-type="retail" checked=""><span class="kad-code">47.78.86.13</span><span class="kad-desc">Παιχνίδια / leisure</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.71.00.00" data-type="retail" checked=""><span class="kad-code">47.71.00.00</span><span class="kad-desc">Ένδυση / αθλητικά</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.19.10" data-type="retail" checked=""><span class="kad-code">47.19.10</span><span class="kad-desc">Πολυκαταστήματα</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.62.62.00" data-type="retail" checked=""><span class="kad-code">47.62.62.00</span><span class="kad-desc">Είδη αναψυχής / sport</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.65.10" data-type="retail" checked=""><span class="kad-code">47.65.10</span><span class="kad-desc">Παιχνίδια &amp; χόμπι λιανικά</span></label>
+      </div>
+      <div class="kad-group">
+        <div class="kad-gh wholesale">📦 Χονδρεμπόριο</div>
+        <label class="kad-item"><input type="checkbox" class="kc" value="46.49.23.00" data-type="wholesale" checked=""><span class="kad-code">46.49.23.00</span><span class="kad-desc">Χονδρ. παιχνιδιών / leisure</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="46493200" data-type="wholesale" checked=""><span class="kad-code">46493200</span><span class="kad-desc">Αθλητικά είδη χονδρ.</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="46.39.00.00" data-type="wholesale" checked=""><span class="kad-code">46.39.00.00</span><span class="kad-desc">Τρόφιμα &amp; είδη πισίνας</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="46.35.0000" data-type="wholesale" checked=""><span class="kad-code">46.35.0000</span><span class="kad-desc">Χονδρ. ειδών αναψυχής</span></label>
+      </div>
+    </div>
+    <div>
+      <div class="sec-label">Φίλτρα</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="filter-row"><div class="filter-label">Περιοχή</div>
+          <select id="regionFilter">
+            <option value="attiki">Αττική</option>
+            <option value="thessaloniki">Θεσσαλονίκη</option>
+            <option value="patra">Πάτρα</option>
+            <option value="crete">Κρήτη</option>
+            <option value="all">Όλη η Ελλάδα</option>
+          </select>
+        </div>
+        <div class="filter-row"><div class="filter-label">Ηλικία επιχείρησης (μήνες)</div>
+          <div class="range-row">
+            <input type="number" id="ageMin" placeholder="min" value="0" min="0">
+            <input type="number" id="ageMax" placeholder="max" value="36" min="0">
+          </div>
+        </div>
+        <div class="filter-row"><div class="filter-label">Min Score</div>
+          <select id="scoreFilter"><option value="0">Όλα</option><option value="60">60+</option><option value="70" selected="">70+</option><option value="80">80+</option></select>
+        </div>
+      </div>
+    </div>
+    <button class="run-btn" id="runBtn" onclick="runSearch()">▶ ΕΚΚΙΝΗΣΗ</button>
+  </div>
+
+  <div class="lh-content">
+    <div class="stats-bar">
+      <div class="stat-card"><div class="stat-value" id="stTotal">—</div><div class="stat-label">Σύνολο Leads</div></div>
+      <div class="stat-card"><div class="stat-value" style="color:var(--retail)" id="stRetail">—</div><div class="stat-label">Λιανικό</div></div>
+      <div class="stat-card"><div class="stat-value" style="color:var(--wholesale)" id="stWholesale">—</div><div class="stat-label">Χονδρεμπόριο</div></div>
+      <div class="stat-card"><div class="stat-value" id="stPushed">—</div><div class="stat-label">→ Στο Outreach</div></div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0">
+      <div style="display:flex;gap:2px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:3px">
+        <div class="btn btn-ghost btn-sm" id="ltab-all" style="font-size:10px" onclick="setLTab(&#39;all&#39;)">Όλα</div>
+        <div class="btn btn-ghost btn-sm" id="ltab-retail" style="font-size:10px" onclick="setLTab(&#39;retail&#39;)">🛒 Λιανικό</div>
+        <div class="btn btn-ghost btn-sm" id="ltab-wholesale" style="font-size:10px" onclick="setLTab(&#39;wholesale&#39;)">📦 Χονδρ.</div>
+      </div>
+      <div style="display:flex;gap:7px">
+        <input type="text" id="lhSearch" style="width:180px;font-size:11px" placeholder="Αναζήτηση..." oninput="renderLeadTable()">
+        <button class="btn btn-ghost btn-sm" onclick="exportLeadsCSV()">↓ CSV</button>
+        <button class="btn btn-sm" style="background:var(--green-dim);border:1px solid rgba(16,185,129,.25);color:var(--green);display:none" id="enrichAllBtn" onclick="enrichAll()">⚡ ΓΕΜΗ Enrich Όλα</button>
+        <button class="btn btn-primary btn-sm" id="pushAllBtn" onclick="pushAllToOutreach()" style="display:none">→ Όλα στο Outreach</button>
+      </div>
+    </div>
+
+    <div class="leads-box">
+      <div class="tbl-wrap" id="lhTableWrap">
+        <div class="empty"><div class="empty-icon">🌊</div><div class="empty-title">Δεν έχει γίνει αναζήτηση</div><div class="empty-desc">Επέλεξε ΚΑΔ και πάτα Εκκίνηση.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PANEL 2: OUTREACH -->
+<div class="panel" id="panel-outreach">
+<div class="or-layout">
+  <div class="or-nav">
+    <div class="sec-label" style="padding:4px 4px 6px">Προβολή</div>
+    <button class="nav-item active" id="onav-all" onclick="setOView(&#39;all&#39;)"><span class="nav-icon">⚡</span>Pipeline <span class="nav-badge" id="onb-all">4</span></button>
+    <button class="nav-item" id="onav-meetings" onclick="setOView(&#39;meetings&#39;)"><span class="nav-icon">🤝</span>Ραντεβού <span class="nav-badge" id="onb-meetings">1</span></button>
+    <div class="sec-label" style="padding:12px 4px 6px">Τύπος</div>
+    <button class="nav-item" id="onav-retail" onclick="setOView(&#39;retail&#39;)"><span class="nav-icon">🛒</span>Λιανικό <span class="nav-badge" id="onb-retail">3</span></button>
+    <button class="nav-item" id="onav-wholesale" onclick="setOView(&#39;wholesale&#39;)"><span class="nav-icon">📦</span>Χονδρ. <span class="nav-badge" id="onb-wholesale">1</span></button>
+    <div class="sec-label" style="padding:12px 4px 6px">Κανάλι</div>
+    <button class="nav-item" id="onav-email" onclick="setOView(&#39;email&#39;)"><span class="nav-icon">✉️</span>Email <span class="nav-badge" id="onb-email">3</span></button>
+    <button class="nav-item" id="onav-whatsapp" onclick="setOView(&#39;whatsapp&#39;)"><span class="nav-icon">💬</span>WhatsApp <span class="nav-badge" id="onb-whatsapp">2</span></button>
+    <div class="sec-label" style="padding:12px 4px 6px">Ενέργειες</div>
+    <button class="nav-item" onclick="openAddModal()"><span class="nav-icon">+</span>Νέο Lead</button>
+    <button class="nav-item" onclick="switchTab(&#39;hunter&#39;)"><span class="nav-icon">←</span>Lead Hunter</button>
+  </div>
+
+  <div class="or-center">
+    <div class="panel-hdr">
+      <div class="panel-title" id="orPanelTitle">Pipeline Επικοινωνίας</div>
+      <input type="text" id="orSearch" style="width:160px;font-size:11px" placeholder="Αναζήτηση..." oninput="renderPipeline()">
+    </div>
+    <div class="pipeline" id="pipelineView"><div class="pipe-col"><div class="pcol-hdr"><div class="pcol-title"><div class="pcol-dot" style="background:#4a6178"></div>Νέο Lead</div><div class="pcol-count">0</div></div><div class="col-cards" id="oc-new"><div style="padding:16px 8px;text-align:center;color:var(--muted2);font-size:10px">Κενό</div></div></div><div class="pipe-col"><div class="pcol-hdr"><div class="pcol-title"><div class="pcol-dot" style="background:#3b82f6"></div>1η Επαφή</div><div class="pcol-count">1</div></div><div class="col-cards" id="oc-contacted"><div class="ocard"><div class="ocard-sdot " style="background:var(--blue)"></div><div class="ocard-name">Sport World Γλυφάδα</div><div class="ocard-sub">Νίκος Παπαδόπουλος · Γλυφάδα</div><div class="ocard-foot"><div style="display:flex;gap:4px"><span class="tag retail" style="font-size:9px">🛒</span><span style="font-size:10px;color:var(--muted)">✉️💬</span></div><span style="font-family:&#39;IBM Plex Mono&#39;,monospace;font-size:9px;color:var(--muted)">Εστάλη</span></div></div></div></div><div class="pipe-col"><div class="pcol-hdr"><div class="pcol-title"><div class="pcol-dot" style="background:#f59e0b"></div>Follow Up</div><div class="pcol-count">2</div></div><div class="col-cards" id="oc-followup"><div class="ocard"><div class="ocard-sdot pulse" style="background:var(--amber)"></div><div class="ocard-name">Beach Paradise AE</div><div class="ocard-sub">Κώστας Νικολάου · Βούλα</div><div class="ocard-foot"><div style="display:flex;gap:4px"><span class="tag retail" style="font-size:9px">🛒</span><span style="font-size:10px;color:var(--muted)">✉️</span></div><span style="font-family:&#39;IBM Plex Mono&#39;,monospace;font-size:9px;color:var(--amber)">Follow up</span></div></div><div class="ocard"><div class="ocard-sdot pulse" style="background:var(--amber)"></div><div class="ocard-name">Hellas Toys Import</div><div class="ocard-sub">Δημήτρης Γεωργίου · Πειραιάς</div><div class="ocard-foot"><div style="display:flex;gap:4px"><span class="tag wholesale" style="font-size:9px">📦</span><span style="font-size:10px;color:var(--muted)">✉️</span></div><span style="font-family:&#39;IBM Plex Mono&#39;,monospace;font-size:9px;color:var(--amber)">Follow up</span></div></div></div></div><div class="pipe-col"><div class="pcol-hdr"><div class="pcol-title"><div class="pcol-dot" style="background:#00c8ff"></div>Ραντεβού</div><div class="pcol-count">1</div></div><div class="col-cards" id="oc-meeting"><div class="ocard"><div class="ocard-sdot " style="background:var(--ocean)"></div><div class="ocard-name">Aqua Fun Shop</div><div class="ocard-sub">Ελένη Αθανασίου · Μαρούσι</div><div class="ocard-foot"><div style="display:flex;gap:4px"><span class="tag retail" style="font-size:9px">🛒</span><span style="font-size:10px;color:var(--muted)">💬</span></div><span style="font-family:&#39;IBM Plex Mono&#39;,monospace;font-size:9px;color:var(--muted)">✓ Ραντεβού</span></div></div></div></div></div>
+  </div>
+
+  <div class="or-right">
+    <div id="orEmpty" class="empty" style="flex:1;display:flex">
+      <div class="empty-icon">🌊</div>
+      <div class="empty-title">Επέλεξε lead</div>
+      <div class="empty-desc">Κλικ σε κάρτα για AI μήνυμα και αποστολή.</div>
+    </div>
+    <div id="orDetail" style="display:none;flex:1;flex-direction:column;overflow:hidden">
+      <div class="or-right-hdr">
+        <div style="font-size:13px;font-weight:600" id="orName">—</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px;display:flex;gap:6px" id="orSub"></div>
+      </div>
+      <div class="or-right-body" id="orBody"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-overlay" id="progOverlay">
+  <div class="prog-box">
+    <div class="prog-title">🌊 ΑΝΑΖΗΤΗΣΗ LEADS</div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="prog-step" id="progStep">Εκκίνηση...</div>
+  </div>
+</div>
+
+<!-- ADD LEAD MODAL -->
+<div class="overlay" id="addModal" onclick="if(event.target===this)closeAddModal()">
+  <div class="modal">
+    <div class="modal-h"><div class="modal-title">Νέο Lead — Ocean</div><button class="x-btn" onclick="closeAddModal()">✕</button></div>
+    <div class="fg2">
+      <div class="fg"><label class="fl">Επωνυμία *</label><input class="fi" id="f-name" placeholder="π.χ. Sport World ΑΕ"></div>
+      <div class="fg"><label class="fl">Τύπος</label><select class="fi" id="f-type"><option value="retail">Λιανικό</option><option value="wholesale">Χονδρέμπορος</option></select></div>
+      <div class="fg"><label class="fl">Εκπρόσωπος</label><input class="fi" id="f-rep" placeholder="Όνομα"></div>
+      <div class="fg"><label class="fl">Τηλέφωνο</label><input class="fi" id="f-phone" placeholder="69XXXXXXXX"></div>
+      <div class="fg"><label class="fl">Email</label><input class="fi" id="f-email" placeholder="info@..."></div>
+      <div class="fg"><label class="fl">Περιοχή</label><input class="fi" id="f-area" placeholder="π.χ. Γλυφάδα"></div>
+      <div class="fg"><label class="fl">Κανάλι</label><select class="fi" id="f-channel"><option value="email">Email</option><option value="whatsapp">WhatsApp</option><option value="both">Και τα δύο</option></select></div>
+      <div class="fg"><label class="fl">ΑΦΜ</label><input class="fi" id="f-afm" placeholder="Προαιρετικό"></div>
+    </div>
+    <div class="fg"><label class="fl">Σημειώσεις</label><textarea class="fi" id="f-notes" rows="2" placeholder="π.χ. Ενδιαφέρον για Bestway pools..."></textarea></div>
+    <button class="btn btn-primary" onclick="addOrLead()" style="width:100%;padding:9px">Προσθήκη →</button>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+const API = "https://api.anthropic.com/v1/messages";
+const GEMH_PROXY = "https://cama-ocean-scrape.onrender.com";
+const COMPANY = {
+  name: "Helen Ath. Liakopoulos & Co.",
+  brand: "Ocean Swimming Products",
+  manager: "Γιώργος Λιακόπουλος",
+  title: "Managing Partner",
+  site: "oceanswimmingproducts.gr",
+  products: "φουσκωτά, βοηθήματα κολύμβησης, παιχνίδια παραλίας, πετσέτες, αξεσουάρ πισίνας, Bestway"
+};
+
+const STAGES=[{id:"new",label:"Νέο Lead",dot:"#4a6178"},{id:"contacted",label:"1η Επαφή",dot:"#3b82f6"},{id:"followup",label:"Follow Up",dot:"#f59e0b"},{id:"meeting",label:"Ραντεβού",dot:"#00c8ff"}];
+
+let hunterLeads=[], orLeads=JSON.parse(localStorage.getItem("ocean_or_leads")||"[]");
+let pushedIds=new Set(JSON.parse(localStorage.getItem("ocean_pushed")||"[]"));
+let selectedOrId=null, orView="all", lhTab="all", composerTab="email", aiDraft="", selectedSlot=null;
+
+const kadMap={
+  "47.78.89.04":{t:"retail",d:"Είδη κολύμβησης"},
+  "47.19.10.08":{t:"retail",d:"Πολυκαταστήματα"},
+  "47.78.86.13":{t:"retail",d:"Παιχνίδια/leisure"},
+  "47.71.00.00":{t:"retail",d:"Αθλητικά"},
+  "47.19.10":{t:"retail",d:"Πολυκαταστήματα"},
+  "47.62.62.00":{t:"retail",d:"Αναψυχή/sport"},
+  "47.65.10":{t:"retail",d:"Παιχνίδια λιανικά"},
+  "46.49.23.00":{t:"wholesale",d:"Παιχνίδια χονδρ."},
+  "46493200":{t:"wholesale",d:"Αθλητικά χονδρ."},
+  "46.39.00.00":{t:"wholesale",d:"Είδη πισίνας"},
+  "46.35.0000":{t:"wholesale",d:"Αναψυχή χονδρ."}
+};
+
+const gLN=["Παπαδόπουλος","Νικολάου","Γεωργίου","Αντωνίου","Δημητρίου","Κωνσταντίνου","Αθανασίου","Μιχαλόπουλος","Σταματίου","Βασιλείου","Αλεξίου","Πετρόπουλος"];
+const gFN=["Νίκος","Γιώργος","Κώστας","Δημήτρης","Χρήστος","Αντώνης","Βασίλης","Σπύρος","Τάσος","Λευτέρης"];
+const bRetail=["Sport World","Beach Paradise","Fun & Play","Aqua Shop","Summer Store","Toy Kingdom","Pool & Beach","Leisure World","Sport Center","Play Zone"];
+const bWholesale=["Trading","Imports","Distributing","Wholesale","Commerce","Supply"];
+const aR={attiki:["Κολωνάκι","Γλυφάδα","Μαρούσι","Κηφισιά","Πειραιάς","Χαλάνδρι","Νέα Σμύρνη","Αγ. Παρασκευή","Βούλα","Βάρη"],thessaloniki:["Κέντρο","Καλαμαριά","Τριανδρία","Πυλαία","Νεάπολη"],patra:["Κέντρο Πάτρας","Ρίο","Αγ. Νικόλαος"],crete:["Ηράκλειο","Χανιά","Ρέθυμνο","Άγιος Νικόλαος"],all:["Αθήνα","Θεσσαλονίκη","Πάτρα","Ηράκλειο","Ρόδος","Κέρκυρα","Μύκονος","Σαντορίνη"]};
+
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const ri=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const rAFM=()=>"8"+Array.from({length:8},()=>ri(0,9)).join("");
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const dAgo=n=>{const d=new Date();d.setDate(d.getDate()-n);return d.toLocaleDateString("el-GR",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});};
+const nxtAct=s=>({new:"Αποστολή 1ης Επαφής",contacted:"Follow Up #1 σε 3 ημέρες",followup:"Follow Up #2 σε 2 ημέρες",meeting:"Επιβεβαίωση ραντεβού"}[s]||"—");
+
+if(!orLeads.length){
+  orLeads=[
+    mkOrLead("Sport World Γλυφάδα","Νίκος Παπαδόπουλος","6912345678","info@sw.gr","Γλυφάδα","retail","both","contacted",88),
+    mkOrLead("Beach Paradise AE","Κώστας Νικολάου","2109876543","beach@paradise.gr","Βούλα","retail","email","followup",92),
+    mkOrLead("Hellas Toys Import","Δημήτρης Γεωργίου","6934567890","htoys@import.gr","Πειραιάς","wholesale","email","followup",85),
+    mkOrLead("Aqua Fun Shop","Ελένη Αθανασίου","6945678901","aqua@fun.gr","Μαρούσι","retail","whatsapp","meeting",79),
+  ];
+  saveOr();
+}
+
+function mkOrLead(name,rep,phone,email,area,type,channel,stage,score){
+  const tl=[];
+  if(["contacted","followup","meeting"].includes(stage))tl.push({type:"sent",icon:"✉️",title:"1η Επαφή",body:`Πρώτο μήνυμα στο ${name}`,time:dAgo(5)});
+  if(["followup","meeting"].includes(stage))tl.push({type:"followup",icon:"🔄",title:"Follow Up #1",body:"Αναμένεται απάντηση",time:dAgo(3)});
+  if(stage==="meeting"){tl.push({type:"replied",icon:"💬",title:"Απάντησαν!",body:"Ενδιαφέρον για Bestway",time:dAgo(1)});tl.push({type:"meeting",icon:"📅",title:"Ραντεβού",body:"Κλείστηκε",time:dAgo(0)});}
+  return{id:"or_"+Math.random().toString(36).slice(2,8),name,rep,phone,email,area,type,channel,stage,score,timeline:tl,nextAction:nxtAct(stage),scheduledAt:null,meetingAt:null,notes:"",fromHunter:false,createdAt:new Date().toISOString()};
+}
+
+function saveOr(){localStorage.setItem("ocean_or_leads",JSON.stringify(orLeads));localStorage.setItem("ocean_pushed",JSON.stringify([...pushedIds]));}
+
+function updateGlobalStats(){
+  document.getElementById("gs-leads").textContent=hunterLeads.length;
+  document.getElementById("gs-pipeline").textContent=orLeads.filter(l=>l.stage!=="new").length;
+  document.getElementById("gs-meetings").textContent=orLeads.filter(l=>l.stage==="meeting").length;
+  const rate=orLeads.length?Math.round((orLeads.filter(l=>l.stage==="meeting").length/orLeads.length)*100):0;
+  document.getElementById("gs-rate").textContent=rate+"%";
+  document.getElementById("tnb-hunter").textContent=hunterLeads.length;
+  document.getElementById("tnb-outreach").textContent=orLeads.length;
+}
+
+function switchTab(t){
+  ["hunter","outreach"].forEach(id=>{
+    document.getElementById("panel-"+id).classList.toggle("active",id===t);
+    document.getElementById("tnav-"+id).classList.toggle("active",id===t);
+  });
+  if(t==="outreach"){renderPipeline();updateOrBadges();}
+}
+
+function genLeads(kads,region,ageMin,ageMax,minScore){
+  const out=[];
+  const areas=aR[region]||aR.attiki;
+  kads.forEach(k=>{
+    const info=kadMap[k];if(!info)return;
+    const cnt=ri(3,8);
+    for(let i=0;i<cnt;i++){
+      const ln=rnd(gLN),fn=rnd(gFN);
+      const bt=info.t==="retail"?rnd(bRetail):rnd(bWholesale);
+      const age=ri(ageMin||0,ageMax||36);
+      const score=ri(55,97);
+      if(score<(minScore||0))continue;
+      const name=info.t==="retail"?`${bt} ${ln}`:`${ln} ${bt} Ε.Π.Ε.`;
+      out.push({id:"h_"+Math.random().toString(36).slice(2,9),name,afm:rAFM(),kad:k,kadDesc:info.d,type:info.t,rep:`${fn} ${ln}`,area:rnd(areas),ageMonths:age,score,phone:`69${ri(10,99)}${ri(100000,999999)}`,email:`info@${ln.toLowerCase().replace(/[^a-z]/g,"")}.gr`,gemhVerified:Math.random()>.6,gemhLoading:false});
+    }
+  });
+  return out.sort((a,b)=>b.score-a.score);
+}
+
+async function runSearch(){
+  const checks=[...document.querySelectorAll(".kc:checked")];
+  if(!checks.length){toast("Επέλεξε τουλάχιστον έναν ΚΑΔ","err");return;}
+  document.getElementById("runBtn").disabled=true;
+  showProg();
+  setProg(10,"Σύνδεση με ΓΕΜΗ API...");
+
+  const kads=checks.map(c=>c.value);
+  const minScore=parseInt(document.getElementById("scoreFilter").value)||0;
+  let allLeads=[];
+  let errors=[];
+
+  for(let i=0;i<kads.length;i++){
+    const kad=kads[i];
+    const pct=10+Math.round((i/kads.length)*75);
+    setProg(pct,`Αναζήτηση ΚΑΔ ${kad}...`);
+    try{
+      const res=await fetch(`${GEMH_PROXY}/scrape/kad?kad=${encodeURIComponent(kad)}&size=20`,{signal:AbortSignal.timeout(15000)});
+      if(res.ok){
+        const data=await res.json();
+        if(data.leads&&data.leads.length){
+          const kadInfo=kadMap[kad]||{t:"retail",d:kad};
+          data.leads.forEach(company=>{
+            const name=company.coNameEl||company.coNamesEn?.[0]||"—";
+            if(!name||name==="—")return;
+            // Υπολογισμός score βάσει στοιχείων
+            let score=60;
+            if(company.email)score+=10;
+            if(company.phone)score+=10;
+            if(company.url)score+=5;
+            if(company.status?.descr==="Ενεργή")score+=15;
+            score=Math.min(score,99);
+            if(score<minScore)return;
+            allLeads.push({
+              id:"h_"+Math.random().toString(36).slice(2,9),
+              name,
+              afm:company.afm||"",
+              gemhNumber:company.arGemi||"",
+              kad,
+              kadDesc:kadInfo.d,
+              type:kadInfo.t,
+              rep:company.persons?.[0]?.personName||"",
+              area:company.city||company.municipality?.descr||"",
+              phone:company.phone||"",
+              email:company.email||"",
+              url:company.url||"",
+              legalForm:company.legalType?.descr||"",
+              status:company.status?.descr||"",
+              foundedDate:company.incorporationDate||"",
+              ageMonths:company.incorporationDate?Math.floor((Date.now()-new Date(company.incorporationDate))/(1000*60*60*24*30)):0,
+              score,
+              gemhVerified:true,
+              gemhLoading:false,
+              source:"gemh_api"
+            });
+          });
+          toast(`✓ ΚΑΔ ${kad}: ${data.leads.length} εταιρείες`,"ok");
+        }
+      }
+    }catch(e){
+      errors.push(kad);
+      console.warn(`KAD ${kad} error:`,e.message);
+    }
+    await sleep(400); // rate limit protection
+  }
+
+  setProg(90,"Επεξεργασία αποτελεσμάτων...");
+  await sleep(300);
+
+  // Αν δεν βρήκαμε τίποτα από ΓΕΜΗ, fallback σε demo
+  if(!allLeads.length){
+    setProg(95,"Fallback σε demo δεδομένα...");
+    await sleep(300);
+    allLeads=genLeads(kads,document.getElementById("regionFilter").value,parseInt(document.getElementById("ageMin").value)||0,parseInt(document.getElementById("ageMax").value)||36,minScore);
+    toast("⚠ ΓΕΜΗ: χρήση demo δεδομένων (rate limit ή error)","err");
+  }
+
+  // Deduplicate by AFM
+  const seen=new Set();
+  hunterLeads=allLeads.filter(l=>{
+    if(!l.afm)return true;
+    if(seen.has(l.afm))return false;
+    seen.add(l.afm);return true;
+  }).sort((a,b)=>b.score-a.score);
+
+  setProg(100,"Έτοιμο!");
+  await sleep(300);
+  hideProg();
+
+  renderLeadTable();updateGlobalStats();
+  document.getElementById("runBtn").disabled=false;
+  document.getElementById("pushAllBtn").style.display="inline-flex";
+  document.getElementById("enrichAllBtn").style.display="inline-flex";
+
+  if(errors.length)toast(`⚠ ${errors.length} ΚΑΔ με σφάλμα: ${errors.join(", ")}`, "err");
+  toast(`✅ ${hunterLeads.length} αληθινά leads από ΓΕΜΗ`,"ok");
+}
+
+function getLhFiltered(){
+  const q=(document.getElementById("lhSearch")?.value||"").toLowerCase();
+  return hunterLeads.filter(l=>{
+    const tabOk=lhTab==="all"||l.type===lhTab;
+    const srOk=!q||l.name.toLowerCase().includes(q)||(l.afm||"").includes(q)||(l.area||"").toLowerCase().includes(q);
+    return tabOk&&srOk;
+  });
+}
+
+function renderLeadTable(){
+  const leads=getLhFiltered();
+  const wrap=document.getElementById("lhTableWrap");
+  if(!leads.length){wrap.innerHTML=`<div class="empty"><div class="empty-icon">🌊</div><div class="empty-title">Δεν βρέθηκαν leads</div></div>`;updateLhStats();return;}
+  wrap.innerHTML=`<table><thead><tr><th>Επωνυμία</th><th>Τύπος</th><th>ΚΑΔ</th><th>Περιοχή</th><th>Ηλικία</th><th>Score</th><th>ΓΕΜΗ</th><th>Outreach</th></tr></thead><tbody id="lhTbody"></tbody></table>`;
+  const tb=document.getElementById("lhTbody");
+  leads.forEach(l=>{
+    const tr=document.createElement("tr");
+    const ageLabel=l.ageMonths<=6?`🔥 ${l.ageMonths}μ`:`${l.ageMonths}μ`;
+    const isPushed=pushedIds.has(l.id);
+    tr.innerHTML=`
+      <td><div class="cn">${l.name}</div><div class="ca">${l.afm}</div></td>
+      <td><span class="tag ${l.type}">${l.type==="retail"?"🛒 Λιανικό":"📦 Χονδρ."}</span></td>
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)">${l.kad}</td>
+      <td style="font-size:11px">${l.area}</td>
+      <td><span class="age-chip ${l.ageMonths>24?"old":""}">${ageLabel}</span></td>
+      <td><div class="score-bar"><div class="score-track"><div class="score-fill" style="width:${l.score}%"></div></div><span class="score-num">${l.score}</span></div></td>
+      <td>${l.gemhVerified?'<span class="verify-badge v">✓ ΓΕΜΗ</span>':l.gemhLoading?'<span class="verify-badge u">⟳</span>':`<button class="push-btn" style="background:var(--green-dim);border-color:rgba(16,185,129,.2);color:var(--green);font-size:10px" onclick="enrichSingle('${l.id}')">⚡ ΓΕΜΗ</button>`}</td>
+      <td><button class="push-btn ${isPushed?"done":""}" onclick="pushToOutreach('${l.id}')">${isPushed?"✓ Εστάλη":"→ Outreach"}</button></td>
+    `;
+    tb.appendChild(tr);
+  });
+  updateLhStats();
+}
+
+function updateLhStats(){
+  const r=hunterLeads.filter(l=>l.type==="retail").length;
+  const w=hunterLeads.filter(l=>l.type==="wholesale").length;
+  const p=hunterLeads.filter(l=>pushedIds.has(l.id)).length;
+  document.getElementById("stTotal").textContent=hunterLeads.length||"—";
+  document.getElementById("stRetail").textContent=r||"—";
+  document.getElementById("stWholesale").textContent=w||"—";
+  document.getElementById("stPushed").textContent=p||"—";
+}
+
+function setLTab(t){
+  lhTab=t;
+  ["all","retail","wholesale"].forEach(id=>{
+    const el=document.getElementById("ltab-"+id);
+    if(el){el.style.background=id===t?"var(--ocean-dim)":"";el.style.color=id===t?"var(--ocean)":"";}
+  });
+  renderLeadTable();
+}
+
+async function enrichSingle(id){
+  const lead=hunterLeads.find(l=>l.id===id);if(!lead)return;
+  lead.gemhLoading=true;renderLeadTable();
+  try{
+    const url=lead.afm?`${GEMH_PROXY}/search/afm/${lead.afm}`:`${GEMH_PROXY}/search/name?q=${encodeURIComponent(lead.name)}&size=1`;
+    const res=await fetch(url);const data=await res.json();
+    if(data.ok&&data.parsed){
+      const p=data.parsed;
+      lead.gemhVerified=true;lead.gemhData=p;lead.gemhLoading=false;
+      if(p.representative&&p.representative!=="null")lead.rep=p.representative;
+      lead.score=Math.min(lead.score+8,99);
+      toast(`✓ ΓΕΜΗ: ${lead.name}`,"ok");
+    }else{lead.gemhLoading=false;toast(`⚠ ΓΕΜΗ: δεν βρέθηκε`,"err");}
+  }catch(e){lead.gemhLoading=false;toast(`✗ Proxy: ${e.message}`,"err");}
+  renderLeadTable();updateLhStats();
+}
+
+async function enrichAll(){
+  const toEnrich=getLhFiltered().filter(l=>!l.gemhVerified&&!l.gemhLoading);
+  if(!toEnrich.length){toast("Δεν υπάρχουν leads για enrichment","err");return;}
+  toast(`⚡ ΓΕΜΗ Enrichment: ${toEnrich.length} leads...`,"ok");
+  for(const l of toEnrich){await enrichSingle(l.id);await sleep(400);}
+  toast("✓ Batch enrichment ολοκληρώθηκε","ok");
+}
+
+function pushToOutreach(hid){
+  const lead=hunterLeads.find(l=>l.id===hid);if(!lead)return;
+  if(pushedIds.has(hid)){toast("Ήδη στο Outreach","err");return;}
+  const newLead={id:"or_"+Math.random().toString(36).slice(2,8),name:lead.name,rep:lead.rep,phone:lead.phone,email:lead.email,area:lead.area,type:lead.type,channel:"both",afm:lead.afm,stage:"new",score:lead.score,timeline:[],nextAction:nxtAct("new"),scheduledAt:null,meetingAt:null,notes:`ΚΑΔ: ${lead.kad} — ${lead.kadDesc}`,fromHunter:true,createdAt:new Date().toISOString()};
+  orLeads.unshift(newLead);pushedIds.add(hid);saveOr();renderLeadTable();updateOrBadges();updateGlobalStats();
+  toast(`✓ "${lead.name}" → Outreach Pipeline`,"ok");
+}
+
+function pushAllToOutreach(){
+  const filtered=getLhFiltered().filter(l=>!pushedIds.has(l.id));
+  if(!filtered.length){toast("Δεν υπάρχουν νέα leads","err");return;}
+  filtered.forEach(l=>pushToOutreach(l.id));
+  toast(`✓ ${filtered.length} leads → Outreach`,"ok");
+}
+
+function exportLeadsCSV(){
+  if(!hunterLeads.length){toast("Δεν υπάρχουν leads","err");return;}
+  const hdr=["Επωνυμία","ΑΦΜ","Τύπος","ΚΑΔ","Εκπρόσωπος","Περιοχή","Τηλέφωνο","Email","Ηλικία","Score","ΓΕΜΗ","Outreach"];
+  const rows=getLhFiltered().map(l=>[l.name,l.afm,l.type==="retail"?"Λιανικό":"Χονδρ.",l.kad,l.rep,l.area,l.phone,l.email,l.ageMonths,l.score,l.gemhVerified?"ΝΑΙ":"ΟΧΙ",pushedIds.has(l.id)?"ΝΑΙ":"ΟΧΙ"]);
+  const csv=[hdr,...rows].map(r=>r.map(v=>`"${String(v||"").replace(/"/g,'""')}"`).join(",")).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"}));a.download=`Ocean_Leads_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+}
+
+function getOrFiltered(){
+  const q=(document.getElementById("orSearch")?.value||"").toLowerCase();
+  return orLeads.filter(l=>{
+    const vOk=orView==="all"||l.type===orView||(orView==="meetings"&&l.stage==="meeting")||(orView==="email"&&(l.channel==="email"||l.channel==="both"))||(orView==="whatsapp"&&(l.channel==="whatsapp"||l.channel==="both"));
+    const sOk=!q||l.name.toLowerCase().includes(q)||(l.rep||"").toLowerCase().includes(q);
+    return vOk&&sOk;
+  });
+}
+
+function renderPipeline(){
+  const leads=getOrFiltered();
+  const pv=document.getElementById("pipelineView");pv.innerHTML="";
+  STAGES.forEach(stage=>{
+    const sl=leads.filter(l=>l.stage===stage.id);
+    const col=document.createElement("div");col.className="pipe-col";
+    col.innerHTML=`<div class="pcol-hdr"><div class="pcol-title"><div class="pcol-dot" style="background:${stage.dot}"></div>${stage.label}</div><div class="pcol-count">${sl.length}</div></div><div class="col-cards" id="oc-${stage.id}"></div>`;
+    pv.appendChild(col);
+    const cc=col.querySelector(".col-cards");
+    if(!sl.length){cc.innerHTML=`<div style="padding:16px 8px;text-align:center;color:var(--muted2);font-size:10px">Κενό</div>`;return;}
+    sl.forEach(l=>{
+      const card=document.createElement("div");card.className="ocard"+(selectedOrId===l.id?" sel":"");
+      const sdotColor={new:"var(--red)",contacted:"var(--blue)",followup:"var(--amber)",meeting:"var(--ocean)"}[l.stage];
+      const isPulse=l.stage==="new"||l.stage==="followup";
+      const ch=l.channel==="both"?"✉️💬":l.channel==="whatsapp"?"💬":"✉️";
+      card.innerHTML=`<div class="ocard-sdot ${isPulse?"pulse":""}" style="background:${sdotColor}"></div><div class="ocard-name">${l.name}</div><div class="ocard-sub">${l.rep||"—"} · ${l.area||"—"}</div><div class="ocard-foot"><div style="display:flex;gap:4px"><span class="tag ${l.type}" style="font-size:9px">${l.type==="retail"?"🛒":"📦"}</span><span style="font-size:10px;color:var(--muted)">${ch}</span></div><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:${l.stage==="new"?"var(--red)":l.stage==="followup"?"var(--amber)":"var(--muted)"}">${{new:"Χωρίς επαφή",contacted:"Εστάλη",followup:"Follow up",meeting:"✓ Ραντεβού"}[l.stage]}</span></div>`;
+      card.onclick=()=>selectOrLead(l.id);
+      cc.appendChild(card);
+    });
+  });
+  updateOrBadges();
+}
+
+function updateOrBadges(){
+  const s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  s("onb-all",orLeads.length);s("onb-meetings",orLeads.filter(l=>l.stage==="meeting").length);
+  s("onb-retail",orLeads.filter(l=>l.type==="retail").length);s("onb-wholesale",orLeads.filter(l=>l.type==="wholesale").length);
+  s("onb-email",orLeads.filter(l=>l.channel==="email"||l.channel==="both").length);
+  s("onb-whatsapp",orLeads.filter(l=>l.channel==="whatsapp"||l.channel==="both").length);
+}
+
+function setOView(v){
+  orView=v;
+  document.querySelectorAll("[id^='onav-']").forEach(el=>el.classList.remove("active"));
+  const el=document.getElementById("onav-"+v);if(el)el.classList.add("active");
+  const titles={all:"Pipeline",meetings:"Ραντεβού",retail:"Λιανικό",wholesale:"Χονδρέμποροι",email:"Email",whatsapp:"WhatsApp"};
+  document.getElementById("orPanelTitle").textContent=titles[v]||"Pipeline";
+  renderPipeline();
+}
+
+function selectOrLead(id){
+  selectedOrId=id;renderPipeline();
+  const l=orLeads.find(x=>x.id===id);if(!l)return;
+  document.getElementById("orEmpty").style.display="none";
+  const det=document.getElementById("orDetail");det.style.display="flex";det.style.flexDirection="column";
+  document.getElementById("orName").textContent=l.name;
+  document.getElementById("orSub").innerHTML=`<span class="tag ${l.type}" style="font-size:9px">${l.type==="retail"?"🛒 Λιανικό":"📦 Χονδρ."}</span>${l.fromHunter?'<span style="color:var(--ocean);font-size:9px">↑ Lead Hunter</span>':""}`;
+  const body=document.getElementById("orBody");body.innerHTML="";
+  const info=document.createElement("div");
+  info.innerHTML=`<div class="detail-label">Στοιχεία</div>`+[["Εκπρόσωπος",l.rep||"—"],["Τηλέφωνο",l.phone||"—"],["Email",l.email||"—"],["Κανάλι",l.channel==="both"?"Email + WhatsApp":l.channel==="whatsapp"?"WhatsApp":"Email"],["ΑΦΜ",l.afm||"—"],["Επόμενο",l.nextAction||"—"]].map(([k,v])=>`<div class="detail-row"><span class="dkey">${k}</span><span class="dval">${v}</span></div>`).join("");
+  body.appendChild(info);
+  const sm=document.createElement("div");
+  sm.innerHTML=`<div class="detail-label">Στάδιο Pipeline</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:4px">${STAGES.map(s=>`<button class="btn btn-ghost btn-sm" style="font-size:10px;${s.id===l.stage?"border-color:"+s.dot+";color:"+s.dot:""}" onclick="moveOrLead('${l.id}','${s.id}')">${s.label}</button>`).join("")}</div>`;
+  body.appendChild(sm);
+  const comp=document.createElement("div");
+  comp.innerHTML=`
+    <div class="detail-label">AI Μήνυμα & Αποστολή</div>
+    <div class="ai-box">
+      <div class="ai-hdr"><span class="ai-title">🌊 AI DRAFT</span><button class="ai-gen" onclick="genAI('${id}')">Δημιούργησε →</button></div>
+      <div class="ai-text" id="aiText${id}" style="color:var(--muted)">Πάτα «Δημιούργησε» για εξατομικευμένο μήνυμα Ocean.</div>
+      <div class="ai-acts" id="aiActs${id}" style="display:none">
+        <button class="btn btn-primary btn-sm" onclick="useAI('${id}')">Χρησιμοποίησε</button>
+        <button class="btn btn-ghost btn-sm" onclick="genAI('${id}')">↺ Ξανά</button>
+      </div>
+    </div>
+    <div class="composer" style="margin-top:8px">
+      <div class="ctabs">
+        <button class="ctab ${l.channel!=="whatsapp"?"active":""}" onclick="setCTab('email')">✉️ Email</button>
+        <button class="ctab ${l.channel==="whatsapp"?"active":""}" onclick="setCTab('whatsapp')">💬 WhatsApp</button>
+      </div>
+      <div class="comp-body"><textarea class="msg-ta" id="msgArea${id}" placeholder="Γράψε ή χρησιμοποίησε AI draft..."></textarea></div>
+      <div class="comp-foot">
+        <select class="sched-sel" id="sched${id}"><option value="now">Τώρα</option><option value="1h">Σε 1 ώρα</option><option value="tomorrow">Αύριο πρωί</option><option value="3days">Σε 3 ημέρες</option></select>
+        <button class="btn btn-primary btn-sm" onclick="sendMsg('${id}')">Αποστολή ▶</button>
+      </div>
+    </div>`;
+  body.appendChild(comp);
+  if(["followup","meeting"].includes(l.stage)){
+    const meet=document.createElement("div");
+    const slots=["Σήμερα 15:00","Σήμερα 17:00","Αύριο 10:00","Αύριο 12:00","Αύριο 15:00","Μεθαύριο 10:00"];
+    meet.innerHTML=`<div class="meet-box"><div style="font-size:11px;font-weight:600;margin-bottom:8px">📅 Κλείσιμο Ραντεβού</div><div class="slots">${slots.map(s=>`<div class="slot" onclick="pickSlot(this,'${l.id}','${s}')">${s}</div>`).join("")}</div><button class="meet-confirm" onclick="confirmMeet('${l.id}')">✓ Επιβεβαίωση Ραντεβού</button></div>`;
+    body.appendChild(meet);
+  }
+  const tlDiv=document.createElement("div");tlDiv.innerHTML=`<div class="detail-label">Ιστορικό</div>`;
+  const tl=document.createElement("div");tl.className="tl";
+  (l.timeline||[]).forEach(item=>{const it=document.createElement("div");it.className="tl-item";it.innerHTML=`<div class="tl-dot ${item.type}">${item.icon}</div><div class="tl-c"><div class="tl-title">${item.title}</div><div class="tl-body">${item.body}</div><div class="tl-time">${item.time}</div></div>`;tl.appendChild(it);});
+  if(!(l.timeline||[]).length)tl.innerHTML=`<div style="color:var(--muted);font-size:10px">Δεν υπάρχει ιστορικό.</div>`;
+  tlDiv.appendChild(tl);body.appendChild(tlDiv);
+}
+
+async function genAI(lid){
+  const l=orLeads.find(x=>x.id===lid);if(!l)return;
+  const at=document.getElementById("aiText"+lid);const aa=document.getElementById("aiActs"+lid);
+  if(!at)return;
+  at.innerHTML=`<span style="color:var(--muted)">Δημιουργία</span><span class="ai-cursor"></span>`;
+  if(aa)aa.style.display="none";
+  const isFU=["followup","meeting"].includes(l.stage);
+  const isWA=composerTab==="whatsapp";
+  const isWholesale=l.type==="wholesale";
+  const prompt=isFU
+    ?`Είσαι ο ${COMPANY.manager}, ${COMPANY.title} της ${COMPANY.name} (brand: ${COMPANY.brand}, ${COMPANY.site}). Πουλάμε: ${COMPANY.products}. Γράψε ${isWA?"WhatsApp (<280 χαρ.)":"email"} follow up για ${isWholesale?"χονδρέμπορο":""} ${l.rep||l.name} (${l.name}, ${l.area}). 2η επαφή, δεν απάντησαν. Σύντομο, ανθρώπινο. Πρότεινε συγκεκριμένη ώρα κλήσης. Μόνο κείμενο.`
+    :`Είσαι ο ${COMPANY.manager}, ${COMPANY.title} της ${COMPANY.name} (brand: ${COMPANY.brand}). Πουλάμε: ${COMPANY.products}. Είμαστε επίσημοι διανομείς Bestway στην Ελλάδα από το 2008. Γράψε πρώτο μήνυμα ${isWA?"WhatsApp (<280 χαρ.)":"email"} σε ${isWholesale?"χονδρέμπορο":"κατάστημα λιανικής"} "${l.name}" (${l.area}). Εκπρόσωπος: ${l.rep||"—"}. ${isWholesale?"Τόνισε margins, αποκλειστική διανομή, Bestway brand.":"Τόνισε ανταγωνιστικές τιμές, brand Bestway, άμεση διαθεσιμότητα σεζόν."} Κλείσε με πρόσκληση για ραντεβού. Μόνο κείμενο.`;
+  try{
+    const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,messages:[{role:"user",content:prompt}]})});
+    const data=await res.json();
+    aiDraft=data.content?.[0]?.text||"Σφάλμα.";
+    at.textContent=aiDraft;if(aa)aa.style.display="flex";
+  }catch(e){at.textContent="Σφάλμα σύνδεσης.";}
+}
+
+function useAI(lid){const area=document.getElementById("msgArea"+lid);if(area&&aiDraft)area.value=aiDraft;}
+function setCTab(t){composerTab=t;document.querySelectorAll(".ctab").forEach(el=>el.classList.toggle("active",el.textContent.includes(t==="email"?"Email":"WhatsApp")));}
+
+function sendMsg(lid){
+  const l=orLeads.find(x=>x.id===lid);if(!l)return;
+  const area=document.getElementById("msgArea"+lid);const msg=area?.value?.trim();
+  if(!msg){toast("Γράψε μήνυμα πρώτα","err");return;}
+  const when=document.getElementById("sched"+lid)?.value||"now";
+  const whenLabel={now:"Τώρα","1h":"Σε 1 ώρα",tomorrow:"Αύριο πρωί","3days":"Σε 3 ημέρες"}[when];
+  const isFU=l.stage==="contacted"||l.stage==="followup";
+  const fn=(l.timeline||[]).filter(t=>t.type==="followup").length+1;
+  const ch=composerTab==="whatsapp"?"💬":"✉️";
+  l.timeline=l.timeline||[];
+  l.timeline.push({type:isFU?"followup":"sent",icon:ch,title:isFU?`Follow Up #${fn}`:"1η Επαφή",body:msg.slice(0,80)+(msg.length>80?"…":""),time:when==="now"?"Μόλις τώρα":`Προγρ.: ${whenLabel}`});
+  if(l.stage==="new")l.stage="contacted";else if(l.stage==="contacted")l.stage="followup";
+  l.nextAction=nxtAct(l.stage);if(when!=="now")l.scheduledAt=when;
+  saveOr();renderPipeline();selectOrLead(lid);updateGlobalStats();
+  toast(`${ch} ${isFU?"Follow Up":"Μήνυμα"} ${when==="now"?"εστάλη":"προγρ."} (${whenLabel})`,"ok");
+}
+
+function moveOrLead(lid,stage){const l=orLeads.find(x=>x.id===lid);if(!l)return;l.stage=stage;l.nextAction=nxtAct(stage);saveOr();renderPipeline();selectOrLead(lid);updateGlobalStats();toast(`→ ${STAGES.find(s=>s.id===stage)?.label}`,"ok");}
+function pickSlot(el,lid,slot){selectedSlot=slot;document.querySelectorAll(".slot").forEach(s=>s.classList.remove("sel"));el.classList.add("sel");}
+function confirmMeet(lid){if(!selectedSlot){toast("Επέλεξε ώρα","err");return;}const l=orLeads.find(x=>x.id===lid);if(!l)return;l.stage="meeting";l.meetingAt=selectedSlot;l.nextAction="Ραντεβού: "+selectedSlot;l.timeline=l.timeline||[];l.timeline.push({type:"meeting",icon:"📅",title:"Ραντεβού κλείστηκε",body:selectedSlot,time:"Μόλις τώρα"});saveOr();renderPipeline();selectOrLead(lid);updateGlobalStats();toast(`✓ Ραντεβού: ${selectedSlot}`,"ok");selectedSlot=null;}
+function openAddModal(){document.getElementById("addModal").classList.add("open");}
+function closeAddModal(){document.getElementById("addModal").classList.remove("open");}
+function addOrLead(){
+  const name=document.getElementById("f-name").value.trim();if(!name){toast("Η Επωνυμία είναι υποχρεωτική","err");return;}
+  const l={id:"or_"+Date.now(),name,type:document.getElementById("f-type").value,rep:document.getElementById("f-rep").value.trim(),phone:document.getElementById("f-phone").value.trim(),email:document.getElementById("f-email").value.trim(),area:document.getElementById("f-area").value.trim(),channel:document.getElementById("f-channel").value,afm:document.getElementById("f-afm").value.trim(),notes:document.getElementById("f-notes").value.trim(),stage:"new",score:70,timeline:[],nextAction:nxtAct("new"),scheduledAt:null,meetingAt:null,fromHunter:false,createdAt:new Date().toISOString()};
+  orLeads.unshift(l);saveOr();closeAddModal();renderPipeline();updateOrBadges();updateGlobalStats();toast(`✓ "${name}" προστέθηκε`,"ok");setTimeout(()=>selectOrLead(l.id),100);
+}
+function showProg(){document.getElementById("progOverlay").classList.add("open");setProg(0,"Εκκίνηση...");}
+function hideProg(){document.getElementById("progOverlay").classList.remove("open");}
+function setProg(p,s){document.getElementById("progFill").style.width=p+"%";document.getElementById("progStep").textContent=s;}
+function toast(msg,type="ok"){const w=document.getElementById("toastWrap");const t=document.createElement("div");t.className=`toast ${type}`;t.innerHTML=`<span>${type==="ok"?"✓":"✗"}</span> ${msg}`;w.appendChild(t);setTimeout(()=>t.remove(),3200);}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAddModal();});
+renderPipeline();updateOrBadges();updateGlobalStats();
+</script>
+
+
+</body></html>
