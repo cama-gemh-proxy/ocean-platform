@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0053)file:///C:/Users/User/Downloads/ocean-platform_3.html -->
-<html lang="el"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="el">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ocean Platform</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23080d14'/%3E%3Cpath d='M10 55 Q25 42 40 55 Q55 68 70 55 Q85 42 90 55' fill='none' stroke='%2300c8ff' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='45' r='22' fill='none' stroke='%2300c8ff' stroke-width='6'/%3E%3C/svg%3E">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
 :root {
@@ -217,19 +218,23 @@ select.fi option{background:var(--surface2)}
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <div class="logo">
-    <span class="logo-icon">🌊</span>
-    <div class="logo-text">Ocean <span>/ Liakopoulos Platform</span></div>
+  <div class="logo" style="padding:0 16px;gap:0;border-right:1px solid var(--border)">
+    <svg height="36" viewBox="0 0 220 58" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 30 Q22 20 34 30 Q46 40 58 30 Q70 20 82 30 Q94 40 106 30 Q118 20 130 30 Q142 40 154 30" fill="none" stroke="#29B6F6" stroke-width="3.5" stroke-linecap="round" opacity="0.9"/>
+      <path d="M6 36 Q20 28 34 36 Q48 44 62 36 Q76 28 90 36 Q104 44 118 36 Q132 28 146 36 Q158 30 168 36" fill="none" stroke="#0288D1" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+      <text x="12" y="54" font-family="Arial Rounded MT Bold, Arial Black, sans-serif" font-size="22" font-weight="900" fill="#4CAF50" font-style="italic">Ocean</text>
+      <text x="102" y="54" font-family="Arial Rounded MT Bold, Arial Black, sans-serif" font-size="14" font-weight="700" fill="#4CAF50" font-style="italic">Platform</text>
+    </svg>
   </div>
   <div class="tabs-nav">
-    <div class="tab-nav active" onclick="switchTab(&#39;hunter&#39;)" id="tnav-hunter">🔍 Lead Hunter <span class="tnbadge" id="tnb-hunter">0</span></div>
-    <div class="tab-nav" onclick="switchTab(&#39;outreach&#39;)" id="tnav-outreach">⚡ Outreach <span class="tnbadge" id="tnb-outreach">4</span></div>
+    <div class="tab-nav active" onclick="switchTab('hunter')" id="tnav-hunter">🔍 Lead Hunter <span class="tnbadge" id="tnb-hunter">0</span></div>
+    <div class="tab-nav" onclick="switchTab('outreach')" id="tnav-outreach">⚡ Outreach <span class="tnbadge" id="tnb-outreach">0</span></div>
   </div>
   <div class="topbar-right">
     <div class="hstat"><div class="hstat-val" style="color:var(--ocean)" id="gs-leads">0</div><div class="hstat-label">Leads</div></div>
-    <div class="hstat"><div class="hstat-val" style="color:var(--blue)" id="gs-pipeline">4</div><div class="hstat-label">Pipeline</div></div>
-    <div class="hstat"><div class="hstat-val" style="color:var(--green)" id="gs-meetings">1</div><div class="hstat-label">Ραντεβού</div></div>
-    <div class="hstat"><div class="hstat-val" style="color:var(--amber)" id="gs-rate">25%</div><div class="hstat-label">Conv%</div></div>
+    <div class="hstat"><div class="hstat-val" style="color:var(--blue)" id="gs-pipeline">0</div><div class="hstat-label">Pipeline</div></div>
+    <div class="hstat"><div class="hstat-val" style="color:var(--green)" id="gs-meetings">0</div><div class="hstat-label">Ραντεβού</div></div>
+    <div class="hstat"><div class="hstat-val" style="color:var(--amber)" id="gs-rate">0%</div><div class="hstat-label">Conv%</div></div>
     <button class="btn btn-primary btn-sm" onclick="openAddModal()">+ Νέο Lead</button>
   </div>
 </div>
@@ -242,20 +247,21 @@ select.fi option{background:var(--surface2)}
       <div class="sec-label">Κατηγορίες ΚΑΔ</div>
       <div class="kad-group">
         <div class="kad-gh retail">🛒 Λιανικό Εμπόριο</div>
-        <label class="kad-item"><input type="checkbox" class="kc" value="47.78.89.04" data-type="retail" checked=""><span class="kad-code">47.78.89.04</span><span class="kad-desc">Είδη κολύμβησης / beach</span></label>
-        <label class="kad-item"><input type="checkbox" class="kc" value="47.19.10.08" data-type="retail" checked=""><span class="kad-code">47.19.10.08</span><span class="kad-desc">Πολυκαταστήματα αθλητικών</span></label>
-        <label class="kad-item"><input type="checkbox" class="kc" value="47.78.86.13" data-type="retail" checked=""><span class="kad-code">47.78.86.13</span><span class="kad-desc">Παιχνίδια / leisure</span></label>
-        <label class="kad-item"><input type="checkbox" class="kc" value="47.71.00.00" data-type="retail" checked=""><span class="kad-code">47.71.00.00</span><span class="kad-desc">Ένδυση / αθλητικά</span></label>
-        <label class="kad-item"><input type="checkbox" class="kc" value="47.19.10" data-type="retail" checked=""><span class="kad-code">47.19.10</span><span class="kad-desc">Πολυκαταστήματα</span></label>
-        <label class="kad-item"><input type="checkbox" class="kc" value="47.62.62.00" data-type="retail" checked=""><span class="kad-code">47.62.62.00</span><span class="kad-desc">Είδη αναψυχής / sport</span></label>
-        <label class="kad-item"><input type="checkbox" class="kc" value="47.65.10" data-type="retail" checked=""><span class="kad-code">47.65.10</span><span class="kad-desc">Παιχνίδια &amp; χόμπι λιανικά</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.78.89.04" data-type="retail" checked><span class="kad-code">47.78.89.04</span><span class="kad-desc">Είδη κολύμβησης / beach</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.19.10.08" data-type="retail" checked><span class="kad-code">47.19.10.08</span><span class="kad-desc">Πολυκαταστήματα αθλητικών</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.78.86.13" data-type="retail" checked><span class="kad-code">47.78.86.13</span><span class="kad-desc">Παιχνίδια / leisure</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.71.00.00" data-type="retail" checked><span class="kad-code">47.71.00.00</span><span class="kad-desc">Ένδυση / αθλητικά</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.19.10" data-type="retail" checked><span class="kad-code">47.19.10</span><span class="kad-desc">Πολυκαταστήματα</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.62.62.00" data-type="retail" checked><span class="kad-code">47.62.62.00</span><span class="kad-desc">Είδη αναψυχής / sport</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.65.10" data-type="retail" checked><span class="kad-code">47.65.10</span><span class="kad-desc">Παιχνίδια & χόμπι λιανικά</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="47.65.67" data-type="retail" checked><span class="kad-code">47.65.67</span><span class="kad-desc">Λιανικό εμπόριο παιχνιδιών</span></label>
       </div>
       <div class="kad-group">
         <div class="kad-gh wholesale">📦 Χονδρεμπόριο</div>
-        <label class="kad-item"><input type="checkbox" class="kc" value="46.49.23.00" data-type="wholesale" checked=""><span class="kad-code">46.49.23.00</span><span class="kad-desc">Χονδρ. παιχνιδιών / leisure</span></label>
-        <label class="kad-item"><input type="checkbox" class="kc" value="46493200" data-type="wholesale" checked=""><span class="kad-code">46493200</span><span class="kad-desc">Αθλητικά είδη χονδρ.</span></label>
-        <label class="kad-item"><input type="checkbox" class="kc" value="46.39.00.00" data-type="wholesale" checked=""><span class="kad-code">46.39.00.00</span><span class="kad-desc">Τρόφιμα &amp; είδη πισίνας</span></label>
-        <label class="kad-item"><input type="checkbox" class="kc" value="46.35.0000" data-type="wholesale" checked=""><span class="kad-code">46.35.0000</span><span class="kad-desc">Χονδρ. ειδών αναψυχής</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="46.49.23.00" data-type="wholesale" checked><span class="kad-code">46.49.23.00</span><span class="kad-desc">Χονδρ. παιχνιδιών / leisure</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="46493200" data-type="wholesale" checked><span class="kad-code">46493200</span><span class="kad-desc">Αθλητικά είδη χονδρ.</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="46.39.00.00" data-type="wholesale" checked><span class="kad-code">46.39.00.00</span><span class="kad-desc">Τρόφιμα & είδη πισίνας</span></label>
+        <label class="kad-item"><input type="checkbox" class="kc" value="46.35.0000" data-type="wholesale" checked><span class="kad-code">46.35.0000</span><span class="kad-desc">Χονδρ. ειδών αναψυχής</span></label>
       </div>
     </div>
     <div>
@@ -277,7 +283,7 @@ select.fi option{background:var(--surface2)}
           </div>
         </div>
         <div class="filter-row"><div class="filter-label">Min Score</div>
-          <select id="scoreFilter"><option value="0">Όλα</option><option value="60">60+</option><option value="70" selected="">70+</option><option value="80">80+</option></select>
+          <select id="scoreFilter"><option value="0">Όλα</option><option value="60">60+</option><option value="70" selected>70+</option><option value="80">80+</option></select>
         </div>
       </div>
     </div>
@@ -294,9 +300,9 @@ select.fi option{background:var(--surface2)}
 
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0">
       <div style="display:flex;gap:2px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:3px">
-        <div class="btn btn-ghost btn-sm" id="ltab-all" style="font-size:10px" onclick="setLTab(&#39;all&#39;)">Όλα</div>
-        <div class="btn btn-ghost btn-sm" id="ltab-retail" style="font-size:10px" onclick="setLTab(&#39;retail&#39;)">🛒 Λιανικό</div>
-        <div class="btn btn-ghost btn-sm" id="ltab-wholesale" style="font-size:10px" onclick="setLTab(&#39;wholesale&#39;)">📦 Χονδρ.</div>
+        <div class="btn btn-ghost btn-sm" id="ltab-all" style="font-size:10px" onclick="setLTab('all')">Όλα</div>
+        <div class="btn btn-ghost btn-sm" id="ltab-retail" style="font-size:10px" onclick="setLTab('retail')">🛒 Λιανικό</div>
+        <div class="btn btn-ghost btn-sm" id="ltab-wholesale" style="font-size:10px" onclick="setLTab('wholesale')">📦 Χονδρ.</div>
       </div>
       <div style="display:flex;gap:7px">
         <input type="text" id="lhSearch" style="width:180px;font-size:11px" placeholder="Αναζήτηση..." oninput="renderLeadTable()">
@@ -320,17 +326,17 @@ select.fi option{background:var(--surface2)}
 <div class="or-layout">
   <div class="or-nav">
     <div class="sec-label" style="padding:4px 4px 6px">Προβολή</div>
-    <button class="nav-item active" id="onav-all" onclick="setOView(&#39;all&#39;)"><span class="nav-icon">⚡</span>Pipeline <span class="nav-badge" id="onb-all">4</span></button>
-    <button class="nav-item" id="onav-meetings" onclick="setOView(&#39;meetings&#39;)"><span class="nav-icon">🤝</span>Ραντεβού <span class="nav-badge" id="onb-meetings">1</span></button>
+    <button class="nav-item active" id="onav-all" onclick="setOView('all')"><span class="nav-icon">⚡</span>Pipeline <span class="nav-badge" id="onb-all">0</span></button>
+    <button class="nav-item" id="onav-meetings" onclick="setOView('meetings')"><span class="nav-icon">🤝</span>Ραντεβού <span class="nav-badge" id="onb-meetings">0</span></button>
     <div class="sec-label" style="padding:12px 4px 6px">Τύπος</div>
-    <button class="nav-item" id="onav-retail" onclick="setOView(&#39;retail&#39;)"><span class="nav-icon">🛒</span>Λιανικό <span class="nav-badge" id="onb-retail">3</span></button>
-    <button class="nav-item" id="onav-wholesale" onclick="setOView(&#39;wholesale&#39;)"><span class="nav-icon">📦</span>Χονδρ. <span class="nav-badge" id="onb-wholesale">1</span></button>
+    <button class="nav-item" id="onav-retail" onclick="setOView('retail')"><span class="nav-icon">🛒</span>Λιανικό <span class="nav-badge" id="onb-retail">0</span></button>
+    <button class="nav-item" id="onav-wholesale" onclick="setOView('wholesale')"><span class="nav-icon">📦</span>Χονδρ. <span class="nav-badge" id="onb-wholesale">0</span></button>
     <div class="sec-label" style="padding:12px 4px 6px">Κανάλι</div>
-    <button class="nav-item" id="onav-email" onclick="setOView(&#39;email&#39;)"><span class="nav-icon">✉️</span>Email <span class="nav-badge" id="onb-email">3</span></button>
-    <button class="nav-item" id="onav-whatsapp" onclick="setOView(&#39;whatsapp&#39;)"><span class="nav-icon">💬</span>WhatsApp <span class="nav-badge" id="onb-whatsapp">2</span></button>
+    <button class="nav-item" id="onav-email" onclick="setOView('email')"><span class="nav-icon">✉️</span>Email <span class="nav-badge" id="onb-email">0</span></button>
+    <button class="nav-item" id="onav-whatsapp" onclick="setOView('whatsapp')"><span class="nav-icon">💬</span>WhatsApp <span class="nav-badge" id="onb-whatsapp">0</span></button>
     <div class="sec-label" style="padding:12px 4px 6px">Ενέργειες</div>
     <button class="nav-item" onclick="openAddModal()"><span class="nav-icon">+</span>Νέο Lead</button>
-    <button class="nav-item" onclick="switchTab(&#39;hunter&#39;)"><span class="nav-icon">←</span>Lead Hunter</button>
+    <button class="nav-item" onclick="switchTab('hunter')"><span class="nav-icon">←</span>Lead Hunter</button>
   </div>
 
   <div class="or-center">
@@ -338,7 +344,7 @@ select.fi option{background:var(--surface2)}
       <div class="panel-title" id="orPanelTitle">Pipeline Επικοινωνίας</div>
       <input type="text" id="orSearch" style="width:160px;font-size:11px" placeholder="Αναζήτηση..." oninput="renderPipeline()">
     </div>
-    <div class="pipeline" id="pipelineView"><div class="pipe-col"><div class="pcol-hdr"><div class="pcol-title"><div class="pcol-dot" style="background:#4a6178"></div>Νέο Lead</div><div class="pcol-count">0</div></div><div class="col-cards" id="oc-new"><div style="padding:16px 8px;text-align:center;color:var(--muted2);font-size:10px">Κενό</div></div></div><div class="pipe-col"><div class="pcol-hdr"><div class="pcol-title"><div class="pcol-dot" style="background:#3b82f6"></div>1η Επαφή</div><div class="pcol-count">1</div></div><div class="col-cards" id="oc-contacted"><div class="ocard"><div class="ocard-sdot " style="background:var(--blue)"></div><div class="ocard-name">Sport World Γλυφάδα</div><div class="ocard-sub">Νίκος Παπαδόπουλος · Γλυφάδα</div><div class="ocard-foot"><div style="display:flex;gap:4px"><span class="tag retail" style="font-size:9px">🛒</span><span style="font-size:10px;color:var(--muted)">✉️💬</span></div><span style="font-family:&#39;IBM Plex Mono&#39;,monospace;font-size:9px;color:var(--muted)">Εστάλη</span></div></div></div></div><div class="pipe-col"><div class="pcol-hdr"><div class="pcol-title"><div class="pcol-dot" style="background:#f59e0b"></div>Follow Up</div><div class="pcol-count">2</div></div><div class="col-cards" id="oc-followup"><div class="ocard"><div class="ocard-sdot pulse" style="background:var(--amber)"></div><div class="ocard-name">Beach Paradise AE</div><div class="ocard-sub">Κώστας Νικολάου · Βούλα</div><div class="ocard-foot"><div style="display:flex;gap:4px"><span class="tag retail" style="font-size:9px">🛒</span><span style="font-size:10px;color:var(--muted)">✉️</span></div><span style="font-family:&#39;IBM Plex Mono&#39;,monospace;font-size:9px;color:var(--amber)">Follow up</span></div></div><div class="ocard"><div class="ocard-sdot pulse" style="background:var(--amber)"></div><div class="ocard-name">Hellas Toys Import</div><div class="ocard-sub">Δημήτρης Γεωργίου · Πειραιάς</div><div class="ocard-foot"><div style="display:flex;gap:4px"><span class="tag wholesale" style="font-size:9px">📦</span><span style="font-size:10px;color:var(--muted)">✉️</span></div><span style="font-family:&#39;IBM Plex Mono&#39;,monospace;font-size:9px;color:var(--amber)">Follow up</span></div></div></div></div><div class="pipe-col"><div class="pcol-hdr"><div class="pcol-title"><div class="pcol-dot" style="background:#00c8ff"></div>Ραντεβού</div><div class="pcol-count">1</div></div><div class="col-cards" id="oc-meeting"><div class="ocard"><div class="ocard-sdot " style="background:var(--ocean)"></div><div class="ocard-name">Aqua Fun Shop</div><div class="ocard-sub">Ελένη Αθανασίου · Μαρούσι</div><div class="ocard-foot"><div style="display:flex;gap:4px"><span class="tag retail" style="font-size:9px">🛒</span><span style="font-size:10px;color:var(--muted)">💬</span></div><span style="font-family:&#39;IBM Plex Mono&#39;,monospace;font-size:9px;color:var(--muted)">✓ Ραντεβού</span></div></div></div></div></div>
+    <div class="pipeline" id="pipelineView"></div>
   </div>
 
   <div class="or-right">
@@ -414,6 +420,7 @@ const kadMap={
   "47.19.10":{t:"retail",d:"Πολυκαταστήματα"},
   "47.62.62.00":{t:"retail",d:"Αναψυχή/sport"},
   "47.65.10":{t:"retail",d:"Παιχνίδια λιανικά"},
+  "47.65.67":{t:"retail",d:"Λιανικό εμπόριο παιχνιδιών"},
   "46.49.23.00":{t:"wholesale",d:"Παιχνίδια χονδρ."},
   "46493200":{t:"wholesale",d:"Αθλητικά χονδρ."},
   "46.39.00.00":{t:"wholesale",d:"Είδη πισίνας"},
@@ -507,7 +514,9 @@ async function runSearch(){
     const pct=10+Math.round((i/kads.length)*75);
     setProg(pct,`Αναζήτηση ΚΑΔ ${kad}...`);
     try{
-      const res=await fetch(`${GEMH_PROXY}/scrape/kad?kad=${encodeURIComponent(kad)}&size=20`,{signal:AbortSignal.timeout(15000)});
+      const controller=new AbortController();const tid=setTimeout(()=>controller.abort(),15000);
+      const res=await fetch(`${GEMH_PROXY}/scrape/kad?kad=${encodeURIComponent(kad)}&size=20`,{signal:controller.signal});
+      clearTimeout(tid);
       if(res.ok){
         const data=await res.json();
         if(data.leads&&data.leads.length){
@@ -845,6 +854,5 @@ function toast(msg,type="ok"){const w=document.getElementById("toastWrap");const
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAddModal();});
 renderPipeline();updateOrBadges();updateGlobalStats();
 </script>
-
-
-</body></html>
+</body>
+</html>
